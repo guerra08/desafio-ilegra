@@ -1,8 +1,12 @@
+import file.Watcher;
+
 public class Application {
 
     public static void main(String[] args) {
-        System.out.println("Hello, world!");
-        System.exit(0);
+        System.out.println("Starting application...");
+        Watcher watcher = new Watcher();
+        watcher.checkExistingFiles();
+        watcher.watchDir();
     }
 
 }
