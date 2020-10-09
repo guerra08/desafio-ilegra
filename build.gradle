@@ -28,3 +28,9 @@ test {
 application {
     mainClassName = 'Application'
 }
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'Application'
+    }
+}
