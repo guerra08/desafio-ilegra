@@ -5,7 +5,7 @@ import repository.SalesmanRepository;
 
 public class SalesmanService {
 
-    private static final SalesmanRepository salesmanRepository = new SalesmanRepository();
+    private static SalesmanRepository salesmanRepository = new SalesmanRepository();
 
     public static boolean addSalesman(Salesman s){
         return salesmanRepository.saveSalesman(s);
@@ -13,6 +13,10 @@ public class SalesmanService {
 
     public static int salesmenCount(){
         return salesmanRepository.getSalesmenSize();
+    }
+
+    public static void refresh(){
+        salesmanRepository = new SalesmanRepository();
     }
 
 }

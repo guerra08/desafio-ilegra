@@ -1,5 +1,8 @@
 package file;
 
+import service.CustomerService;
+import service.SalesmanService;
+
 import java.io.IOException;
 import java.nio.file.*;
 
@@ -22,6 +25,7 @@ public class Watcher {
                     Processor.processFile(file);
                 }
                 Output.generateOutputFile();
+                resetServices();
             }while (key.reset());
             watchService.close();
         }catch (IOException | InterruptedException e){
@@ -38,13 +42,19 @@ public class Watcher {
             for(Path path : existingPaths){
                 if(!Files.isDirectory(path) && path.toString().endsWith(".dat")){
                     System.out.println("Processing existing file...");
-                    Processor.processFile(path);
+                    Processor.processFile(path.getFileName());
                 }
             }
             Output.generateOutputFileOfExisting();
+            resetServices();
         }catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    public void resetServices(){
+        CustomerService.refresh();
+        SalesmanService.refresh();
     }
 
 }

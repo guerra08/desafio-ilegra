@@ -1,6 +1,7 @@
 package file;
 
 import domain.Customer;
+import domain.Sale;
 import domain.Salesman;
 import service.CustomerService;
 import service.SalesmanService;
@@ -14,7 +15,7 @@ import java.nio.file.Path;
 public class Processor {
 
     /**
-     * Process a given file, adding it's contents to the respective repositories.
+     * Process a given file, adding it's contents to the respective repositories using the service classes.
      * @param filePath The file being processed
      */
     public static void processFile(Path filePath){
@@ -26,12 +27,15 @@ public class Processor {
                 String[] separated = line.split("ç");
                 switch (separated[0]){
                     case "001":
-                        Salesman s = new Salesman(separated[1], separated[2], Double.parseDouble(separated[3]));
-                        SalesmanService.addSalesman(s);
+                        Salesman salesman = new Salesman(separated[1], separated[2], Double.parseDouble(separated[3]));
+                        SalesmanService.addSalesman(salesman);
                         break;
                     case "002":
-                        Customer c = new Customer(separated[1], separated[2], separated[3]);
-                        CustomerService.addCustomer(c);
+                        Customer customer = new Customer(separated[1], separated[2], separated[3]);
+                        CustomerService.addCustomer(customer);
+                        break;
+                    case "003":
+                        Sale sale = new Sale(separated[1], separated[2], separated[3]);
                         break;
                     default:
                         System.out.println("Could not process given type.");
