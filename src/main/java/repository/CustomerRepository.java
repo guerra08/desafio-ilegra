@@ -5,7 +5,7 @@ import domain.Customer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerRepository {
+public class CustomerRepository implements Repository<Customer> {
 
     private List<Customer> customers = new ArrayList<>();
 
@@ -14,7 +14,7 @@ public class CustomerRepository {
      * @param c The new Customer
      * @return boolean
      */
-    public boolean saveCustomer(Customer c){
+    public boolean save(Customer c){
         return customers.add(c);
     }
 
@@ -22,8 +22,16 @@ public class CustomerRepository {
      * Returns the amount of customers in the repository
      * @return int
      */
-    public int getCustomersSize(){
+    public int size(){
         return customers.size();
+    }
+
+    /**
+     * Returns all the saved customers
+     * @return List<Customer>
+     */
+    public List<Customer> getAll(){
+        return customers;
     }
 
 }

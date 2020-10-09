@@ -4,6 +4,7 @@ import domain.Customer;
 import domain.Sale;
 import domain.Salesman;
 import service.CustomerService;
+import service.SaleService;
 import service.SalesmanService;
 
 import java.io.BufferedReader;
@@ -27,6 +28,8 @@ public class Processor {
                 if(!processLine(line))
                     throw new IllegalArgumentException("File contains invalid data");
             }
+            SaleService.updateBestSale();
+            SaleService.updateWorstSalesmanEver();
         }catch (FileNotFoundException e) {
             System.out.println("File not found.");
         }catch (IOException e){
@@ -52,6 +55,7 @@ public class Processor {
                 break;
             case "003":
                 Sale sale = new Sale(separated[1], separated[2], separated[3]);
+                SaleService.addSale(sale);
                 break;
             default:
                 return false;
