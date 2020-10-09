@@ -14,11 +14,10 @@ public class SaleService {
     }
 
     public static void updateBestSale(){
-        if(bestSale != null){
-            saleRepository.getAll().forEach(e -> {
-                if(e.getSalePrice() > bestSale.getSalePrice()) bestSale = e;
-            });
-        }
+        saleRepository.getAll().forEach(e -> {
+            if(bestSale == null) bestSale = e;
+            if(e.getSalePrice() > bestSale.getSalePrice()) bestSale = e;
+        });
     }
 
     public static void updateWorstSalesmanEver(){
