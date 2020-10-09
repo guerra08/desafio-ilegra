@@ -8,6 +8,8 @@ import java.nio.file.*;
 
 public class Watcher {
 
+    private final Processor processor = new Processor();
+
     /**
      * Watches for new .dat files in ~/data/in.
      */
@@ -22,7 +24,7 @@ public class Watcher {
                 Path file = (Path) key.pollEvents().get(0).context();
                 if(file.toString().endsWith(".dat")){
                     System.out.println("New .dat file to be processed: " + file);
-                    Processor.processFile(file);
+                    processor.processFile(file);
                 }
                 Output.generateOutputFile();
                 resetServices();
@@ -42,7 +44,7 @@ public class Watcher {
             for(Path path : existingPaths){
                 if(!Files.isDirectory(path) && path.toString().endsWith(".dat")){
                     System.out.println("Processing existing file...");
-                    Processor.processFile(path.getFileName());
+                    processor.processFile(path.getFileName());
                 }
             }
             Output.generateOutputFileOfExisting();
