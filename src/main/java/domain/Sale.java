@@ -4,13 +4,11 @@ import config.Characters;
 import lombok.Builder;
 import lombok.Data;
 
-import java.math.BigDecimal;
-
 @Data
 public class Sale {
 
     private String saleId;
-    private BigDecimal salePrice;
+    private Double salePrice;
     private String salesmanName;
 
     public Sale(String saleId, String soldProducts, String salesmanName){
@@ -29,12 +27,12 @@ public class Sale {
      * @param soldProducts The String of products
      * @return double
      */
-    private BigDecimal generateSalePrice(String soldProducts){
-        BigDecimal total = new BigDecimal("0.00");
+    private Double generateSalePrice(String soldProducts){
+        Double total = 0.00;
         String[] products = soldProducts.replaceAll("[\\[\\](){}]","").split(Characters.PRODUCTS_SEPARATOR);
         for(String product : products){
             String[] productInfo = product.split(Characters.PRODUCT_INFO_SEPARATOR);
-            total = total.add(BigDecimal.valueOf(Integer.parseInt(productInfo[1]) * Double.parseDouble(productInfo[2])));
+            total += (Integer.parseInt(productInfo[1]) * Double.parseDouble(productInfo[2]));
         }
         return total;
     }
