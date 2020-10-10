@@ -41,13 +41,15 @@ public class Watcher {
     public void checkExistingFiles(){
         try{
             DirectoryStream<Path> existingPaths = Files.newDirectoryStream(Paths.get(Dir.INPUT_DIR));
+            boolean create = false;
             for(Path path : existingPaths){
                 if(!Files.isDirectory(path) && path.toString().endsWith(".dat")){
                     System.out.println("Processing existing file...");
                     processor.processFile(path.getFileName());
+                    create = true;
                 }
             }
-            Output.generateOutputFileOfExisting();
+            if(create) Output.generateOutputFileOfExisting();
         }catch (IOException e){
             e.printStackTrace();
         }

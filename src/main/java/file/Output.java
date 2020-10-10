@@ -25,24 +25,22 @@ public class Output {
                     Instant.now().toEpochMilli() + ".done.dat");
             f.getParentFile().mkdirs();
             fileWriter = new FileWriter(f);
-            fileWriter.write(customerService.generateOutputString() + salesmanService.generateOutputString());
+            fileWriter.write(customerService.generateOutputString() + salesmanService.generateOutputString() + saleService.generateOutputString());
             fileWriter.close();
         }catch (IOException e){
             System.out.println(e.getMessage());
         }
 
-        customerService.cleanRepository();
-        salesmanService.cleanRepository();
-        saleService.cleanRepository();
+        customerService.refresh();
+        salesmanService.refresh();
     }
 
     public static void generateOutputFileOfExisting(){
         System.out.println("Generating report from existing files...");
         System.out.println(salesmanService.generateOutputString());
 
-        customerService.cleanRepository();
-        salesmanService.cleanRepository();
-        saleService.cleanRepository();
+        customerService.refresh();
+        salesmanService.refresh();
     }
 
 }

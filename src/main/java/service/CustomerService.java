@@ -2,6 +2,8 @@ package service;
 
 import config.Characters;
 import domain.Customer;
+import lombok.Getter;
+import lombok.Setter;
 import repository.CustomerRepository;
 
 public class CustomerService extends Service{
@@ -10,11 +12,17 @@ public class CustomerService extends Service{
 
     private static CustomerRepository customerRepository = new CustomerRepository();
 
+    @Getter
+    @Setter
+    private static int customersFromInputFile = 0;
+
     public boolean addFromProcessedData(String[] data){
+        customersFromInputFile++;
         return customerRepository.save(Customer.builder().CPF(data[1]).name(data[2]).businessArea(data[3]).build());
     }
 
     public boolean addCustomer(Customer c){
+        customersFromInputFile++;
         return customerRepository.save(c);
     }
 
@@ -26,7 +34,7 @@ public class CustomerService extends Service{
         return "CustomersCount - " + getSize() + Characters.NEW_LINE;
     }
 
-    public void cleanRepository(){
-        customerRepository = new CustomerRepository();
+    public void refresh(){
+        customersFromInputFile = 0;
     }
 }

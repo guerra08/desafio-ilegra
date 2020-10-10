@@ -4,10 +4,10 @@ import config.Characters;
 import domain.Salesman;
 import lombok.Getter;
 import lombok.Setter;
-import repository.CustomerRepository;
 import repository.SalesmanRepository;
 
-import java.math.BigDecimal;
+import java.util.Comparator;
+import java.util.Map;
 
 public class SalesmanService extends Service{
 
@@ -15,19 +15,24 @@ public class SalesmanService extends Service{
 
     private static SalesmanRepository salesmanRepository = new SalesmanRepository();
 
-    @Getter
-    @Setter
-    private static String worstSalesmanEver = null;
+    private SaleService saleService = new SaleService();
 
     @Getter
     @Setter
-    public static BigDecimal worstSaleValueEver = new BigDecimal("0.00");
+    private static Map.Entry<String, Double> worstSalesmanEver = null;
+
+    @Getter
+    @Setter
+    private static int salesmenFromInputFile = 0;
+
 
     public boolean addFromProcessedData(String[] data){
+        salesmenFromInputFile++;
         return salesmanRepository.save(Salesman.builder().CNPJ(data[1]).name(data[2]).salary(Double.parseDouble(data[3])).build());
     }
 
     public boolean addSalesman(Salesman s){
+        salesmenFromInputFile++;
         return salesmanRepository.save(s);
     }
 
@@ -36,11 +41,21 @@ public class SalesmanService extends Service{
     }
 
     public String generateOutputString(){
-        return "AmountOfSalesman - " + getSize() + Characters.NEW_LINE;
+        updateWorstSalesmanEver();
+        return "AmountOfSalesman - " + salesmenFromInputFile + Characters.NEW_LINE + "WorstSalesmanEver - " + getWorstSalesmanEver().getKey() + Characters.NEW_LINE;
     }
 
-    public void cleanRepository(){
+    public void refresh(){
         salesmanRepository = new SalesmanRepository();
+    }
+
+    private void updateWorstSalesmanEver(){
+        Map.Entry<String, Double> worstFromRepo = saleService.mapSalesToSalesman().entrySet().stream().
+                min(Comparator.comparingDouble(Map.Entry::getValue)).orElse(null);
+        if(worstSalesmanEver == null) worstSalesmanEver = worstFromRepo;
+        else if(worstFromRepo != null && worstFromRepo.getValue() < worstSalesmanEver.getValue()){
+            worstSalesmanEver = worstFromRepo;
+        }
     }
 
 }

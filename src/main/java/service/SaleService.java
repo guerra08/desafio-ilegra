@@ -4,11 +4,15 @@ import config.Characters;
 import domain.Sale;
 import repository.SaleRepository;
 
+import java.util.Comparator;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 public class SaleService extends Service{
 
     public SaleService(){}
 
-    private static SaleRepository saleRepository = new SaleRepository();
+    private static final SaleRepository saleRepository = new SaleRepository();
     public static Sale bestSale = null;
 
     public boolean addFromProcessedData(String[] data){
@@ -25,11 +29,20 @@ public class SaleService extends Service{
     }
 
     public String generateOutputString(){
-       return "MostExpensiveSale - " + bestSale.getSaleId() + Characters.NEW_LINE;
+        updateMostExpensiveSale();
+        return "MostExpensiveSale - " + bestSale.getSaleId() + Characters.NEW_LINE;
     }
 
-    public void cleanRepository(){
-        saleRepository = new SaleRepository();
+    public Map<String, Double> mapSalesToSalesman(){
+        return saleRepository.getAll().stream()
+                .collect(Collectors.groupingBy(Sale::getSalesmanName, Collectors.summingDouble(Sale::getSalePrice)));
     }
 
+    private void updateMostExpensiveSale(){
+        Sale sale = saleRepository.getAll().stream().max(Comparator.comparingDouble(Sale::getSalePrice)).orElse(null);
+        if(sale != null){
+            if(bestSale == null) bestSale = sale;
+            else if(sale.getSalePrice() > bestSale.getSalePrice()) bestSale = sale;
+        }
+    }
 }
