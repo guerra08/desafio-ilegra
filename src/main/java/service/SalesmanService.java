@@ -42,16 +42,17 @@ public class SalesmanService extends Service{
 
     public String generateOutputString(){
         updateWorstSalesmanEver();
-        return "AmountOfSalesman - " + salesmenFromInputFile + Characters.NEW_LINE + "WorstSalesmanEver - " + getWorstSalesmanEver().getKey() + Characters.NEW_LINE;
+        return "SalesmanFromInput - " + salesmenFromInputFile + Characters.NEW_LINE + "WorstSalesmanEver - " + getWorstSalesmanEver().getKey() + Characters.NEW_LINE;
     }
 
     public void refresh(){
-        salesmanRepository = new SalesmanRepository();
+        salesmenFromInputFile = 0;
     }
 
     private void updateWorstSalesmanEver(){
         Map.Entry<String, Double> worstFromRepo = saleService.mapSalesToSalesman().entrySet().stream().
                 min(Comparator.comparingDouble(Map.Entry::getValue)).orElse(null);
+        System.out.println(worstFromRepo.getKey());
         if(worstSalesmanEver == null) worstSalesmanEver = worstFromRepo;
         else if(worstFromRepo != null && worstFromRepo.getValue() < worstSalesmanEver.getValue()){
             worstSalesmanEver = worstFromRepo;

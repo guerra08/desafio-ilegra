@@ -12,13 +12,27 @@ import java.nio.file.Path;
 
 import service.Service;
 
-public class Processor {
+public class Processor implements Runnable{
+
+    private Path filePath = null;
+
+    public Processor(Path filePath){
+        this.filePath = filePath;
+    }
+
+    public Processor(){}
+
+    @Override
+    public synchronized void run(){
+        processFile(this.filePath);
+    }
 
     /**
      * Process a given file, adding it's contents to the respective repositories using the service classes.
      * @param filePath The file being processed
      */
     public void processFile(Path filePath){
+        System.out.println("Processing new file: " + filePath);
         try{
             BufferedReader br = new BufferedReader(new FileReader(Dir.INPUT_DIR + filePath.toString()));
             String line;
@@ -26,6 +40,7 @@ public class Processor {
                 if(!callService(line))
                     throw new IllegalArgumentException("File contains invalid data");
             }
+            Output.generateOutputFile(filePath.toString());
         }catch (FileNotFoundException e) {
             System.out.println("File not found.");
         }catch (IOException e){

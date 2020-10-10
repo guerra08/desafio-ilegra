@@ -1,15 +1,23 @@
 package file;
 
 import config.Dir;
-import service.CustomerService;
-import service.SalesmanService;
 
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.concurrent.ExecutorService;
 
-public class Watcher {
+public class Watcher implements Runnable{
 
-    private final Processor processor = new Processor();
+    private final ExecutorService processor;
+
+    public Watcher(ExecutorService processor){
+        this.processor = processor;
+    }
+
+    @Override
+    public void run(){
+        watchDir();
+    }
 
     /**
      * Watches for new .dat files in ~/data/in.
@@ -24,10 +32,9 @@ public class Watcher {
                 key = watchService.take();
                 Path file = (Path) key.pollEvents().get(0).context();
                 if(file.toString().endsWith(".dat")){
-                    System.out.println("New .dat file to be processed: " + file);
-                    processor.processFile(file);
+                    Runnable processorRunnable = new Processor(file);
+                    processor.submit(processorRunnable);
                 }
-                Output.generateOutputFile();
             }while (key.reset());
             watchService.close();
         }catch (IOException | InterruptedException e){
@@ -40,12 +47,13 @@ public class Watcher {
      */
     public void checkExistingFiles(){
         try{
+            Processor p = new Processor();
             DirectoryStream<Path> existingPaths = Files.newDirectoryStream(Paths.get(Dir.INPUT_DIR));
             boolean create = false;
             for(Path path : existingPaths){
                 if(!Files.isDirectory(path) && path.toString().endsWith(".dat")){
                     System.out.println("Processing existing file...");
-                    processor.processFile(path.getFileName());
+                    p.processFile(path);
                     create = true;
                 }
             }

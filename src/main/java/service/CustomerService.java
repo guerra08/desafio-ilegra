@@ -31,7 +31,7 @@ public class CustomerService extends Service{
     }
 
     public String generateOutputString(){
-        return "CustomersCount - " + getSize() + Characters.NEW_LINE;
+        return "CustomerFromInput - " + customersFromInputFile + Characters.NEW_LINE;
     }
 
     public void refresh(){

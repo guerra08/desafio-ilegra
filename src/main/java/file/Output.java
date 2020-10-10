@@ -17,7 +17,7 @@ public class Output {
     private static final SalesmanService salesmanService = new SalesmanService();
     private static final SaleService saleService = new SaleService();
 
-    public static void generateOutputFile(){
+    public static void generateOutputFile(String processedFile){
         FileWriter fileWriter;
         try{
             System.out.println("Writing output file...");
@@ -25,7 +25,7 @@ public class Output {
                     Instant.now().toEpochMilli() + ".done.dat");
             f.getParentFile().mkdirs();
             fileWriter = new FileWriter(f);
-            fileWriter.write(customerService.generateOutputString() + salesmanService.generateOutputString() + saleService.generateOutputString());
+            fileWriter.write("GeneratedFrom - " + processedFile + Characters.NEW_LINE + customerService.generateOutputString() + salesmanService.generateOutputString() + saleService.generateOutputString());
             fileWriter.close();
         }catch (IOException e){
             System.out.println(e.getMessage());
