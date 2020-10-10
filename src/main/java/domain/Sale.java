@@ -1,6 +1,7 @@
 package domain;
 
 import config.Characters;
+import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -16,6 +17,11 @@ public class Sale {
         this.saleId = saleId;
         this.salesmanName = salesmanName;
         this.salePrice = generateSalePrice(soldProducts);
+    }
+
+    @Builder(builderMethodName = "builder")
+    public static Sale saleBuilder(String saleId, String soldProducts, String salesmanName) {
+        return new Sale(saleId, soldProducts, salesmanName);
     }
 
     /**

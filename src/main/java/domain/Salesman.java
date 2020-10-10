@@ -9,7 +9,7 @@ import lombok.Data;
 @Builder
 public class Salesman {
 
-    private String CPF;
+    private String CNPJ;
     private String name;
     private double salary;
 

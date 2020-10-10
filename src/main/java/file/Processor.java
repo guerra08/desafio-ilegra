@@ -24,7 +24,6 @@ public class Processor {
      * @param filePath The file being processed
      */
     public void processFile(Path filePath){
-        System.out.println(filePath);
         try{
             BufferedReader br = new BufferedReader(new FileReader(Dir.INPUT_DIR + filePath.toString()));
             String line;
@@ -50,16 +49,13 @@ public class Processor {
         String[] separated = line.split(Characters.MAIN_SEPARATOR);
         switch (separated[0]){
             case Identifiers.SALESMAN_ID:
-                Salesman salesman = new Salesman(separated[1], separated[2], Double.parseDouble(separated[3]));
-                SalesmanService.addSalesman(salesman);
+                SalesmanService.addSalesman(Salesman.builder().CNPJ(separated[1]).name(separated[2]).salary(Double.parseDouble(separated[3])).build());
                 break;
             case Identifiers.CUSTOMER_ID:
-                Customer customer = new Customer(separated[1], separated[2], separated[3]);
-                CustomerService.addCustomer(customer);
+                CustomerService.addCustomer(Customer.builder().CPF(separated[1]).name(separated[2]).businessArea(separated[3]).build());
                 break;
             case Identifiers.SALE_ID:
-                Sale sale = new Sale(separated[1], separated[2], separated[3]);
-                SaleService.addSale(sale);
+                SaleService.addSale(Sale.builder().saleId(separated[1]).soldProducts(separated[2]).salesmanName(separated[3]).build());
                 break;
             default:
                 return false;

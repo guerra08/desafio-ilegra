@@ -15,7 +15,7 @@ public class Output {
     }
 
     public static void generateOutputFileOfExisting(){
-        System.out.println("Report from existing files: ");
+        System.out.println("Generating report from existing files...");
         System.out.println("Worst salesman: " + SalesmanService.getWorstSalesmanEver());
     }
 
