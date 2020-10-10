@@ -1,5 +1,6 @@
 package domain;
 
+import config.Characters;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -24,9 +25,9 @@ public class Sale {
      */
     private BigDecimal generateSalePrice(String soldProducts){
         BigDecimal total = new BigDecimal("0.00");
-        String[] products = soldProducts.replaceAll("[\\[\\](){}]","").split(",");
+        String[] products = soldProducts.replaceAll("[\\[\\](){}]","").split(Characters.PRODUCTS_SEPARATOR);
         for(String product : products){
-            String[] productInfo = product.split("-");
+            String[] productInfo = product.split(Characters.PRODUCT_INFO_SEPARATOR);
             total = total.add(BigDecimal.valueOf(Integer.parseInt(productInfo[1]) * Double.parseDouble(productInfo[2])));
         }
         return total;
