@@ -16,19 +16,19 @@ public class SaleService {
     public static void updateBestSale(){
         saleRepository.getAll().forEach(e -> {
             if(bestSale == null) bestSale = e;
-            if(e.getSalePrice() > bestSale.getSalePrice()) bestSale = e;
+            if(e.getSalePrice().compareTo(bestSale.getSalePrice() )> 0) bestSale = e;
         });
     }
 
     public static void updateWorstSalesmanEver(){
         saleRepository.getAll().forEach(e -> {
-            if(SalesmanService.worstSalesmanEver == null){
-                SalesmanService.worstSalesmanEver = e.getSalesmanName();
-                SalesmanService.worstSaleValueEver = e.getSalePrice();
+            if(SalesmanService.getWorstSalesmanEver() == null){
+                SalesmanService.setWorstSalesmanEver(e.getSalesmanName());
+                SalesmanService.setWorstSaleValueEver(e.getSalePrice());
             }
-            else if(SalesmanService.worstSaleValueEver > e.getSalePrice()){
-                SalesmanService.worstSalesmanEver = e.getSalesmanName();
-                SalesmanService.worstSaleValueEver = e.getSalePrice();
+            else if(SalesmanService.worstSaleValueEver.compareTo(e.getSalePrice()) > 0){
+                SalesmanService.setWorstSalesmanEver(e.getSalesmanName());
+                SalesmanService.setWorstSaleValueEver(e.getSalePrice());
             }
         });
     }

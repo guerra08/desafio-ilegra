@@ -11,12 +11,12 @@ public class Output {
         System.out.println("Amount of clients: " + CustomerService.getSize());
         System.out.println("Amount of salesman: " + SalesmanService.getSize());
         System.out.println("Most expensive sale: " + SaleService.bestSale.getSaleId());
-        System.out.println("Worst salesman EVER: " + SalesmanService.worstSalesmanEver);
+        System.out.println("Worst salesman EVER: " + SalesmanService.getWorstSalesmanEver());
     }
 
     public static void generateOutputFileOfExisting(){
         System.out.println("Report from existing files: ");
-        System.out.println("Worst salesman: " + SalesmanService.worstSalesmanEver);
+        System.out.println("Worst salesman: " + SalesmanService.getWorstSalesmanEver());
     }
 
 }
