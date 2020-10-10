@@ -1,21 +1,45 @@
 package service;
 
+import config.Characters;
 import domain.Salesman;
+import lombok.Getter;
+import lombok.Setter;
+import repository.CustomerRepository;
 import repository.SalesmanRepository;
 
-public class SalesmanService {
+import java.math.BigDecimal;
+
+public class SalesmanService extends Service{
+
+    public SalesmanService(){}
 
     private static SalesmanRepository salesmanRepository = new SalesmanRepository();
 
-    public static boolean addSalesman(Salesman s){
-        return salesmanRepository.saveSalesman(s);
+    @Getter
+    @Setter
+    private static String worstSalesmanEver = null;
+
+    @Getter
+    @Setter
+    public static BigDecimal worstSaleValueEver = new BigDecimal("0.00");
+
+    public boolean addFromProcessedData(String[] data){
+        return salesmanRepository.save(Salesman.builder().CNPJ(data[1]).name(data[2]).salary(Double.parseDouble(data[3])).build());
     }
 
-    public static int salesmenCount(){
-        return salesmanRepository.getSalesmenSize();
+    public boolean addSalesman(Salesman s){
+        return salesmanRepository.save(s);
     }
 
-    public static void refresh(){
+    public int getSize(){
+        return salesmanRepository.size();
+    }
+
+    public String generateOutputString(){
+        return "AmountOfSalesman - " + getSize() + Characters.NEW_LINE;
+    }
+
+    public void cleanRepository(){
         salesmanRepository = new SalesmanRepository();
     }
 

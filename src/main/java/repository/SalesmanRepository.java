@@ -5,7 +5,7 @@ import domain.Salesman;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SalesmanRepository {
+public class SalesmanRepository implements Repository<Salesman>{
 
     private List<Salesman> salesmen = new ArrayList<>();
 
@@ -14,7 +14,7 @@ public class SalesmanRepository {
      * @param s The new Salesman
      * @return boolean
      */
-    public boolean saveSalesman(Salesman s){
+    public boolean save(Salesman s){
         return salesmen.add(s);
     }
 
@@ -22,8 +22,16 @@ public class SalesmanRepository {
      * Returns the amount of salesmen in the repository
      * @return int
      */
-    public int getSalesmenSize(){
+    public int size(){
         return salesmen.size();
+    }
+
+    /**
+     * Returns all the saved salesman
+     * @return List<Salesman>
+     */
+    public List<Salesman> getAll(){
+        return salesmen;
     }
 
 }

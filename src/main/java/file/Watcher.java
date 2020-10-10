@@ -1,5 +1,6 @@
 package file;
 
+import config.Dir;
 import service.CustomerService;
 import service.SalesmanService;
 
@@ -16,7 +17,7 @@ public class Watcher {
     public void watchDir(){
         try{
             WatchService watchService = FileSystems.getDefault().newWatchService();
-            Path path = Paths.get(System.getProperty("user.home") + "/data/in");
+            Path path = Paths.get(Dir.INPUT_DIR);
             path.register(watchService, StandardWatchEventKinds.ENTRY_CREATE);
             WatchKey key;
             do{
@@ -27,7 +28,6 @@ public class Watcher {
                     processor.processFile(file);
                 }
                 Output.generateOutputFile();
-                resetServices();
             }while (key.reset());
             watchService.close();
         }catch (IOException | InterruptedException e){
@@ -40,7 +40,7 @@ public class Watcher {
      */
     public void checkExistingFiles(){
         try{
-            DirectoryStream<Path> existingPaths = Files.newDirectoryStream(Paths.get(System.getProperty("user.home") + "/data/in"));
+            DirectoryStream<Path> existingPaths = Files.newDirectoryStream(Paths.get(Dir.INPUT_DIR));
             for(Path path : existingPaths){
                 if(!Files.isDirectory(path) && path.toString().endsWith(".dat")){
                     System.out.println("Processing existing file...");
@@ -48,15 +48,9 @@ public class Watcher {
                 }
             }
             Output.generateOutputFileOfExisting();
-            resetServices();
         }catch (IOException e){
             e.printStackTrace();
         }
-    }
-
-    public void resetServices(){
-        CustomerService.refresh();
-        SalesmanService.refresh();
     }
 
 }
