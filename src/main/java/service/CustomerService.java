@@ -8,8 +8,6 @@ import repository.CustomerRepository;
 
 public class CustomerService extends Service{
 
-    public CustomerService(){}
-
     private static CustomerRepository customerRepository = new CustomerRepository();
 
     @Getter
@@ -18,7 +16,7 @@ public class CustomerService extends Service{
 
     public boolean addFromProcessedData(String[] data){
         customersFromInputFile++;
-        return customerRepository.save(Customer.builder().CPF(data[1]).name(data[2]).businessArea(data[3]).build());
+        return customerRepository.save(Customer.builder().cpf(data[1]).name(data[2]).businessArea(data[3]).build());
     }
 
     public boolean addCustomer(Customer c){

@@ -11,8 +11,6 @@ import java.util.Map;
 
 public class SalesmanService extends Service{
 
-    public SalesmanService(){}
-
     private static SalesmanRepository salesmanRepository = new SalesmanRepository();
 
     private SaleService saleService = new SaleService();
@@ -28,7 +26,7 @@ public class SalesmanService extends Service{
 
     public boolean addFromProcessedData(String[] data){
         salesmenFromInputFile++;
-        return salesmanRepository.save(Salesman.builder().CNPJ(data[1]).name(data[2]).salary(Double.parseDouble(data[3])).build());
+        return salesmanRepository.save(Salesman.builder().cnpj(data[1]).name(data[2]).salary(Double.parseDouble(data[3])).build());
     }
 
     public boolean addSalesman(Salesman s){

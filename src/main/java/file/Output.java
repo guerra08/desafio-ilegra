@@ -13,6 +13,8 @@ import java.time.Instant;
 
 public class Output {
 
+    private Output(){}
+
     private static final CustomerService customerService = new CustomerService();
     private static final SalesmanService salesmanService = new SalesmanService();
     private static final SaleService saleService = new SaleService();

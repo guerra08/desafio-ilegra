@@ -8,6 +8,8 @@ import service.Service;
 
 public class ServiceFactory {
 
+    private ServiceFactory(){}
+
     public static Service getService(String[] lineData){
         switch (lineData[0]){
             case Identifiers.SALESMAN_ID:

@@ -7,6 +7,8 @@ import java.io.File;
  */
 public class Characters {
 
+    private Characters(){}
+
     public static final String MAIN_SEPARATOR = "ç";
     public static final String PRODUCTS_SEPARATOR = ",";
     public static final String PRODUCT_INFO_SEPARATOR = "-";
