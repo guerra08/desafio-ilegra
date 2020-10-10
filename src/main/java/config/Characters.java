@@ -12,5 +12,6 @@ public class Characters {
     public static final String PRODUCT_INFO_SEPARATOR = "-";
 
     public static final String FILE_PATH_SEPARATOR = File.separator;
+    public static final String NEW_LINE = System.getProperty("line.separator");
 
 }

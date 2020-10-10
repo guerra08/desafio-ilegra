@@ -1,5 +1,6 @@
 package service;
 
+import config.Characters;
 import domain.Customer;
 import repository.CustomerRepository;
 
@@ -21,8 +22,11 @@ public class CustomerService extends Service{
         return customerRepository.size();
     }
 
-    public void refresh(){
-        customerRepository = new CustomerRepository();
+    public String generateOutputString(){
+        return "CustomersCount - " + getSize() + Characters.NEW_LINE;
     }
 
+    public void cleanRepository(){
+        customerRepository = new CustomerRepository();
+    }
 }

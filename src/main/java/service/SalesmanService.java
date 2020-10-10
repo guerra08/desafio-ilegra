@@ -1,8 +1,10 @@
 package service;
 
+import config.Characters;
 import domain.Salesman;
 import lombok.Getter;
 import lombok.Setter;
+import repository.CustomerRepository;
 import repository.SalesmanRepository;
 
 import java.math.BigDecimal;
@@ -33,7 +35,11 @@ public class SalesmanService extends Service{
         return salesmanRepository.size();
     }
 
-    public void refresh(){
+    public String generateOutputString(){
+        return "AmountOfSalesman - " + getSize() + Characters.NEW_LINE;
+    }
+
+    public void cleanRepository(){
         salesmanRepository = new SalesmanRepository();
     }
 
