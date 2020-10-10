@@ -1,4 +1,4 @@
-package runnable;
+package core;
 
 import config.Characters;
 import config.Dir;
@@ -16,12 +16,19 @@ import service.Service;
 public class Processor implements Runnable{
 
     private Path filePath = null;
+    private final ServiceFactory serviceFactory;
+    private final Output output;
 
-    public Processor(Path filePath){
-        this.filePath = filePath;
+    public Processor(Path filePath, ServiceFactory serviceFactory, Output output){
+        this.filePath       = filePath;
+        this.serviceFactory = serviceFactory;
+        this.output         = output;
     }
 
-    public Processor(){}
+    public Processor(ServiceFactory serviceFactory, Output output){
+        this.serviceFactory = serviceFactory;
+        this.output         = output;
+    }
 
     @Override
     public void run(){
@@ -42,7 +49,7 @@ public class Processor implements Runnable{
                 if(!callService(line))
                     throw new IllegalArgumentException("File contains invalid data");
             }
-            Output.generateOutputFile(filePath.toString());
+            output.generateOutputFile(filePath.toString());
         }catch (FileNotFoundException e) {
             System.out.println("File not found.");
         }catch (IOException e){
@@ -62,7 +69,7 @@ public class Processor implements Runnable{
      */
     public boolean callService(String line){
         String[] separated = line.split(Characters.MAIN_SEPARATOR);
-        Service service = ServiceFactory.getService(separated[0]);
+        Service service = serviceFactory.getService(separated[0]);
         if(service == null) return false;
         return service.addFromProcessedData(separated);
     }

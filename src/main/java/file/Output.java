@@ -2,6 +2,7 @@ package file;
 
 import config.Characters;
 import config.Dir;
+import factory.ServiceFactory;
 import service.CustomerService;
 import service.SaleService;
 import service.SalesmanService;
@@ -13,17 +14,21 @@ import java.time.Instant;
 
 public class Output {
 
-    private Output(){}
+    private final CustomerService customerService;
+    private final SalesmanService salesmanService;
+    private final SaleService saleService;
 
-    private static final CustomerService customerService = new CustomerService();
-    private static final SalesmanService salesmanService = new SalesmanService();
-    private static final SaleService saleService = new SaleService();
+    public Output(ServiceFactory serviceFactory){
+        this.saleService        = serviceFactory.getSaleService();
+        this.customerService    = serviceFactory.getCustomerService();
+        this.salesmanService    = serviceFactory.getSalesmanService();
+    }
 
     /**
      * Generates the output file for a given input .dat file.
      * @param processedFile The name of the processed file
      */
-    public static void generateOutputFile(String processedFile){
+    public void generateOutputFile(String processedFile){
         File f = new File(Dir.OUTPUT_DIR + Characters.FILE_PATH_SEPARATOR +
                 Instant.now().toEpochMilli() + ".done.dat");
         f.getParentFile().mkdirs();
