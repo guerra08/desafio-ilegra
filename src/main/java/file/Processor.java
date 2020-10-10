@@ -33,8 +33,9 @@ public class Processor implements Runnable{
      */
     public void processFile(Path filePath){
         System.out.println("Processing new file: " + filePath);
-        try{
-            BufferedReader br = new BufferedReader(new FileReader(Dir.INPUT_DIR + filePath.toString()));
+        try(
+            BufferedReader br = new BufferedReader(new FileReader(Dir.INPUT_DIR + filePath.toString()))
+        ){
             String line;
             while((line = br.readLine()) != null){
                 if(!callService(line))

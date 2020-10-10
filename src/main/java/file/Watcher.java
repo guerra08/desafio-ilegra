@@ -23,8 +23,9 @@ public class Watcher implements Runnable{
      * Watches for new .dat files in ~/data/in.
      */
     public void watchDir(){
-        try{
-            WatchService watchService = FileSystems.getDefault().newWatchService();
+        try(
+            WatchService watchService = FileSystems.getDefault().newWatchService()
+        ){
             Path path = Paths.get(Dir.INPUT_DIR);
             path.register(watchService, StandardWatchEventKinds.ENTRY_CREATE);
             WatchKey key;
@@ -36,9 +37,10 @@ public class Watcher implements Runnable{
                     processor.submit(processorRunnable);
                 }
             }while (key.reset());
-            watchService.close();
-        }catch (IOException | InterruptedException e){
+        }catch (IOException e){
             e.printStackTrace();
+        }catch (InterruptedException e){
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -46,9 +48,10 @@ public class Watcher implements Runnable{
      * Checks for existing files in ~/data/in.
      */
     public void checkExistingFiles(){
-        try{
+        try(
+            DirectoryStream<Path> existingPaths = Files.newDirectoryStream(Paths.get(Dir.INPUT_DIR))
+        ){
             Processor p = new Processor();
-            DirectoryStream<Path> existingPaths = Files.newDirectoryStream(Paths.get(Dir.INPUT_DIR));
             boolean create = false;
             for(Path path : existingPaths){
                 if(!Files.isDirectory(path) && path.toString().endsWith(".dat")){

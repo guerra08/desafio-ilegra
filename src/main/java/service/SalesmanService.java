@@ -52,7 +52,6 @@ public class SalesmanService extends Service{
     private void updateWorstSalesmanEver(){
         Map.Entry<String, Double> worstFromRepo = saleService.mapSalesToSalesman().entrySet().stream().
                 min(Comparator.comparingDouble(Map.Entry::getValue)).orElse(null);
-        System.out.println(worstFromRepo.getKey());
         if(worstSalesmanEver == null) worstSalesmanEver = worstFromRepo;
         else if(worstFromRepo != null && worstFromRepo.getValue() < worstSalesmanEver.getValue()){
             worstSalesmanEver = worstFromRepo;

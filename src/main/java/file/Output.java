@@ -18,15 +18,14 @@ public class Output {
     private static final SaleService saleService = new SaleService();
 
     public static void generateOutputFile(String processedFile){
-        FileWriter fileWriter;
-        try{
+        File f = new File(Dir.OUTPUT_DIR + Characters.FILE_PATH_SEPARATOR +
+                Instant.now().toEpochMilli() + ".done.dat");
+        f.getParentFile().mkdirs();
+        try (
+            FileWriter fileWriter = new FileWriter(f)
+        ){
             System.out.println("Writing output file...");
-            File f = new File(Dir.OUTPUT_DIR + Characters.FILE_PATH_SEPARATOR +
-                    Instant.now().toEpochMilli() + ".done.dat");
-            f.getParentFile().mkdirs();
-            fileWriter = new FileWriter(f);
             fileWriter.write("GeneratedFrom - " + processedFile + Characters.NEW_LINE + customerService.generateOutputString() + salesmanService.generateOutputString() + saleService.generateOutputString());
-            fileWriter.close();
         }catch (IOException e){
             System.out.println(e.getMessage());
         }
