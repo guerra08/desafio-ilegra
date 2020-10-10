@@ -1,4 +1,4 @@
-package file;
+package runnable;
 
 import config.Dir;
 
@@ -22,7 +22,7 @@ public class Watcher implements Runnable{
     /**
      * Watches for new .dat files in ~/data/in.
      */
-    public void watchDir(){
+    private void watchDir(){
         try(
             WatchService watchService = FileSystems.getDefault().newWatchService()
         ){
@@ -41,28 +41,6 @@ public class Watcher implements Runnable{
             e.printStackTrace();
         }catch (InterruptedException e){
             Thread.currentThread().interrupt();
-        }
-    }
-
-    /**
-     * Checks for existing files in ~/data/in.
-     */
-    public void checkExistingFiles(){
-        try(
-            DirectoryStream<Path> existingPaths = Files.newDirectoryStream(Paths.get(Dir.INPUT_DIR))
-        ){
-            Processor p = new Processor();
-            boolean create = false;
-            for(Path path : existingPaths){
-                if(!Files.isDirectory(path) && path.toString().endsWith(".dat")){
-                    System.out.println("Processing existing file...");
-                    p.processFile(path);
-                    create = true;
-                }
-            }
-            if(create) Output.generateOutputFileOfExisting();
-        }catch (IOException e){
-            e.printStackTrace();
         }
     }
 

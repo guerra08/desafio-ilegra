@@ -1,4 +1,4 @@
-package file;
+package runnable;
 
 import config.Characters;
 import config.Dir;
@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
 
+import file.Output;
 import service.Service;
 
 public class Processor implements Runnable{
@@ -23,7 +24,7 @@ public class Processor implements Runnable{
     public Processor(){}
 
     @Override
-    public synchronized void run(){
+    public void run(){
         processFile(this.filePath);
     }
 
@@ -32,7 +33,7 @@ public class Processor implements Runnable{
      * @param filePath The file being processed
      */
     public void processFile(Path filePath){
-        System.out.println("Processing new file: " + filePath);
+        System.out.println("Processing file: " + filePath);
         try(
             BufferedReader br = new BufferedReader(new FileReader(Dir.INPUT_DIR + filePath.toString()))
         ){
@@ -54,9 +55,14 @@ public class Processor implements Runnable{
         }
     }
 
+    /**
+     * Calls the correct Service given by the ServiceFactory
+     * @param line The line of data being used
+     * @return boolean
+     */
     public boolean callService(String line){
         String[] separated = line.split(Characters.MAIN_SEPARATOR);
-        Service service = ServiceFactory.getService(separated);
+        Service service = ServiceFactory.getService(separated[0]);
         if(service == null) return false;
         return service.addFromProcessedData(separated);
     }

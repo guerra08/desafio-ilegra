@@ -19,6 +19,10 @@ public class Output {
     private static final SalesmanService salesmanService = new SalesmanService();
     private static final SaleService saleService = new SaleService();
 
+    /**
+     * Generates the output file for a given input .dat file.
+     * @param processedFile The name of the processed file
+     */
     public static void generateOutputFile(String processedFile){
         File f = new File(Dir.OUTPUT_DIR + Characters.FILE_PATH_SEPARATOR +
                 Instant.now().toEpochMilli() + ".done.dat");
@@ -31,14 +35,6 @@ public class Output {
         }catch (IOException e){
             System.out.println(e.getMessage());
         }
-
-        customerService.refresh();
-        salesmanService.refresh();
-    }
-
-    public static void generateOutputFileOfExisting(){
-        System.out.println("Generating report from existing files...");
-        System.out.println(salesmanService.generateOutputString());
 
         customerService.refresh();
         salesmanService.refresh();

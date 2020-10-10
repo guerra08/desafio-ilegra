@@ -10,8 +10,13 @@ public class ServiceFactory {
 
     private ServiceFactory(){}
 
-    public static Service getService(String[] lineData){
-        switch (lineData[0]){
+    /**
+     * Returns a service from a given data type
+     * @param dataType String, identifier of data type
+     * @return Service
+     */
+    public static Service getService(String dataType){
+        switch (dataType){
             case Identifiers.SALESMAN_ID:
                 return new SalesmanService();
             case Identifiers.CUSTOMER_ID:
