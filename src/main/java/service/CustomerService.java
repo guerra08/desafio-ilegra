@@ -3,19 +3,25 @@ package service;
 import domain.Customer;
 import repository.CustomerRepository;
 
-public class CustomerService {
+public class CustomerService extends Service{
+
+    public CustomerService(){}
 
     private static CustomerRepository customerRepository = new CustomerRepository();
 
-    public static boolean addCustomer(Customer c){
+    public boolean addFromProcessedData(String[] data){
+        return customerRepository.save(Customer.builder().CPF(data[1]).name(data[2]).businessArea(data[3]).build());
+    }
+
+    public boolean addCustomer(Customer c){
         return customerRepository.save(c);
     }
 
-    public static int getSize(){
+    public int getSize(){
         return customerRepository.size();
     }
 
-    public static void refresh(){
+    public void refresh(){
         customerRepository = new CustomerRepository();
     }
 

@@ -2,12 +2,7 @@ package file;
 
 import config.Characters;
 import config.Dir;
-import domain.Customer;
-import domain.Sale;
-import domain.Salesman;
-import service.CustomerService;
-import service.SaleService;
-import service.SalesmanService;
+import factory.ServiceFactory;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -15,7 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import config.Identifiers;
+import service.Service;
 
 public class Processor {
 
@@ -28,11 +23,9 @@ public class Processor {
             BufferedReader br = new BufferedReader(new FileReader(Dir.INPUT_DIR + filePath.toString()));
             String line;
             while((line = br.readLine()) != null){
-                if(!processLine(line))
+                if(!callService(line))
                     throw new IllegalArgumentException("File contains invalid data");
             }
-            SaleService.updateBestSale();
-            SaleService.updateWorstSalesmanEver();
         }catch (FileNotFoundException e) {
             System.out.println("File not found.");
         }catch (IOException e){
@@ -45,22 +38,11 @@ public class Processor {
         }
     }
 
-    public boolean processLine(String line){
+    public boolean callService(String line){
         String[] separated = line.split(Characters.MAIN_SEPARATOR);
-        switch (separated[0]){
-            case Identifiers.SALESMAN_ID:
-                SalesmanService.addSalesman(Salesman.builder().CNPJ(separated[1]).name(separated[2]).salary(Double.parseDouble(separated[3])).build());
-                break;
-            case Identifiers.CUSTOMER_ID:
-                CustomerService.addCustomer(Customer.builder().CPF(separated[1]).name(separated[2]).businessArea(separated[3]).build());
-                break;
-            case Identifiers.SALE_ID:
-                SaleService.addSale(Sale.builder().saleId(separated[1]).soldProducts(separated[2]).salesmanName(separated[3]).build());
-                break;
-            default:
-                return false;
-        }
-        return true;
+        Service service = ServiceFactory.getService(separated);
+        if(service == null) return false;
+        return service.addFromProcessedData(separated);
     }
 
 }

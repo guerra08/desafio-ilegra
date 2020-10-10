@@ -7,7 +7,9 @@ import repository.SalesmanRepository;
 
 import java.math.BigDecimal;
 
-public class SalesmanService {
+public class SalesmanService extends Service{
+
+    public SalesmanService(){}
 
     private static SalesmanRepository salesmanRepository = new SalesmanRepository();
 
@@ -19,15 +21,19 @@ public class SalesmanService {
     @Setter
     public static BigDecimal worstSaleValueEver = new BigDecimal("0.00");
 
-    public static boolean addSalesman(Salesman s){
+    public boolean addFromProcessedData(String[] data){
+        return salesmanRepository.save(Salesman.builder().CNPJ(data[1]).name(data[2]).salary(Double.parseDouble(data[3])).build());
+    }
+
+    public boolean addSalesman(Salesman s){
         return salesmanRepository.save(s);
     }
 
-    public static int getSize(){
+    public int getSize(){
         return salesmanRepository.size();
     }
 
-    public static void refresh(){
+    public void refresh(){
         salesmanRepository = new SalesmanRepository();
     }
 

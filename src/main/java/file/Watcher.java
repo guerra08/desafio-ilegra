@@ -28,7 +28,6 @@ public class Watcher {
                     processor.processFile(file);
                 }
                 Output.generateOutputFile();
-                resetServices();
             }while (key.reset());
             watchService.close();
         }catch (IOException | InterruptedException e){
@@ -49,15 +48,9 @@ public class Watcher {
                 }
             }
             Output.generateOutputFileOfExisting();
-            resetServices();
         }catch (IOException e){
             e.printStackTrace();
         }
-    }
-
-    public void resetServices(){
-        CustomerService.refresh();
-        SalesmanService.refresh();
     }
 
 }
