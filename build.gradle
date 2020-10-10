@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+    id "org.sonarqube" version "3.0"
 }
 
 group 'io.github.guerra08'
@@ -32,5 +33,13 @@ application {
 jar {
     manifest {
         attributes 'Main-Class': 'Application'
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "guerra08_desafio-ilegra"
+        property "sonar.organization", "guerra08"
+        property "sonar.host.url", "https://sonarcloud.io"
     }
 }
