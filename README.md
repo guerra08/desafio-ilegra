@@ -26,6 +26,10 @@ A seguir, esta documentado o diagrama de pacotes da aplicação:
 
 ![Diagrama de pacotes](https://raw.githubusercontent.com/guerra08/desafio-ilegra/dev/documents/package-diagram.png)
 
+## Diagrama de threads
+
+...
+
 ## Melhorias
 
 - [ ] Melhor gestão / injeção de dependencias
