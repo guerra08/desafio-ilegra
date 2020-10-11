@@ -15,7 +15,7 @@ Para executar, basta realizar o download do arquvo **.jar** ou **.zip**, extrair
 
 ``java -jar desafio-ilegra-1.0-SNAPSHOT.jar``
 
-Você também pode executar o projeto utilizando o gradle / gradlew presente neste repositório.
+Você também pode compilar / executar o projeto utilizando o gradle / gradlew presente neste repositório. Basta cloná-lo ou baixar como zip.
 
 Projeto codificado e testado em ambiente Windows 10, utilizando o JDK Corretto na versão 11.
 
