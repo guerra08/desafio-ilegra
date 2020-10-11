@@ -33,13 +33,13 @@ public class Processor implements Runnable{
 
     @Override
     public synchronized void run(){
-        while(true){
+        while(!Thread.currentThread().isInterrupted()){
             try {
                 if(!inputQueue.isEmpty())
                     processFile(inputQueue.take());
-                Thread.sleep(50);
+                wait(50);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Thread.currentThread().interrupt();
             }
         }
     }
