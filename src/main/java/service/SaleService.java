@@ -10,7 +10,7 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class SaleService implements Service<Sale>{
+public class SaleService extends Service{
 
     private final SaleRepository saleRepository = new SaleRepository();
     @Getter

@@ -9,7 +9,7 @@ import repository.SalesmanRepository;
 
 import java.util.Map;
 
-public class SalesmanService implements Service<Salesman>{
+public class SalesmanService extends Service{
 
     private final SalesmanRepository salesmanRepository = new SalesmanRepository();
 

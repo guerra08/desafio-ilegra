@@ -9,7 +9,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
-import java.util.logging.Level;
 
 import file.Output;
 import org.apache.logging.log4j.LogManager;
@@ -52,7 +51,7 @@ public class Processor implements Runnable{
      * @param fileName The file being processed
      */
     public void processFile(String fileName){
-        logger.info("Processing file " + fileName);
+        logger.info(String.format("Processing file %s", fileName));
         try(
             BufferedReader br = new BufferedReader(new FileReader(Dir.INPUT_DIR + fileName))
         ){
@@ -63,7 +62,7 @@ public class Processor implements Runnable{
             }
             output.generateOutputFile(fileName);
         }catch (FileNotFoundException e) {
-            logger.error("File " + fileName + " not found.");
+            logger.error(String.format("File %s not found", fileName));
         }catch (IOException e){
             logger.error("Error processing file.");
         }catch (ArrayIndexOutOfBoundsException e){

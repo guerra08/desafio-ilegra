@@ -6,7 +6,7 @@ import domain.Customer;
 import lombok.Getter;
 import repository.CustomerRepository;
 
-public class CustomerService implements Service<Customer>{
+public class CustomerService extends Service{
 
     private final CustomerRepository customerRepository = new CustomerRepository();
 
