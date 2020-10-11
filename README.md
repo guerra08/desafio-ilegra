@@ -17,6 +17,8 @@ Para executar, basta realizar o download do arquvo **.jar** ou **.zip**, extrair
 
 Você também pode executar o projeto utilizando o gradle / gradlew presente neste repositório.
 
+Projeto codificado e testado em ambiente Windows 10, utilizando o JDK Corretto na versão 11.
+
 ## Enunciado
 
 O enunciado do desafio pode ser visualizado clicando **[aqui](https://github.com/guerra08/desafio-ilegra/blob/main/documents/problemDefinition.pdf)**
@@ -39,3 +41,4 @@ De maneira simples, enquanto a thread de Watcher analisa os novos arquivos do di
 - [ ] Múltiplas threads para processamento dos arquivos
 - [ ] Persistir estruturas de dados em memória não volátil
 - [ ] Validações nos dados de entrada
+- [ ] Corrigir possíveis problemas de encoding
