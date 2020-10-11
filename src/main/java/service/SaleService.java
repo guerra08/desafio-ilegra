@@ -3,6 +3,7 @@ package service;
 import config.Characters;
 import config.Identifiers;
 import domain.Sale;
+import lombok.Getter;
 import repository.SaleRepository;
 
 import java.util.Comparator;
@@ -14,8 +15,10 @@ public class SaleService extends Service{
     public SaleService(){}
 
     private final SaleRepository saleRepository = new SaleRepository();
-    public Sale bestSale = null;
-    public Map.Entry<String, Double> worstSalesmanEver = null;
+    @Getter
+    private Sale bestSale = null;
+    @Getter
+    private Map.Entry<String, Double> worstSalesmanEver = null;
 
     public boolean addFromProcessedData(String[] data){
         if(!data[0].equals(Identifiers.SALE_ID)) return false;
@@ -33,7 +36,7 @@ public class SaleService extends Service{
 
     public String generateOutputString(){
         updateBestAndWorst();
-        return "MostExpensiveSale - " + bestSale.getSaleId() + Characters.NEW_LINE;
+        return "MostExpensiveSale - " + bestSale.getSaleId() + Characters.NEW_LINE + "WorstSalesmanEver - " + worstSalesmanEver.getKey() + Characters.NEW_LINE;
     }
 
     private Map<String, Double> getWorstSalesmanFromSales(){
@@ -42,16 +45,8 @@ public class SaleService extends Service{
     }
 
     private void updateBestAndWorst(){
-        Sale sale = saleRepository.getAll().stream().max(Comparator.comparingDouble(Sale::getSalePrice)).orElse(null);
-        if(sale != null){
-            if(bestSale == null) bestSale = sale;
-            else if(sale.getSalePrice() > bestSale.getSalePrice()) bestSale = sale;
-        }
-        Map.Entry<String, Double> worstFromRepo = getWorstSalesmanFromSales().entrySet().stream().min(Comparator.comparingDouble(Map.Entry::getValue)).orElse(null);
-        if(worstSalesmanEver == null) worstSalesmanEver = worstFromRepo;
-        else if(worstFromRepo != null && worstFromRepo.getValue() < worstSalesmanEver.getValue()){
-            worstSalesmanEver = worstFromRepo;
-        }
+        bestSale            = saleRepository.getAll().stream().max(Comparator.comparingDouble(Sale::getSalePrice)).orElse(null);
+        worstSalesmanEver   = getWorstSalesmanFromSales().entrySet().stream().min(Comparator.comparingDouble(Map.Entry::getValue)).orElse(null);
     }
 
 }
