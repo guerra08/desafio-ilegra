@@ -8,7 +8,7 @@ import service.SalesmanService;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ServiceFactoryTest {
+class ServiceFactoryTest {
 
     private static ServiceFactory serviceFactory;
 

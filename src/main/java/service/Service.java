@@ -1,8 +1,30 @@
 package service;
 
-public abstract class Service {
+public interface Service<T> {
 
-    public abstract boolean addFromProcessedData(String[] data);
+    /**
+     * Adds an entry from a processed data String array
+     * @param data String array
+     * @return boolean
+     */
+    boolean addFromProcessedData(String[] data);
 
-    public abstract String generateOutputString();
+    /**
+     * Adds a new entry
+     * @param obj Entry
+     * @return boolean
+     */
+    boolean add(T obj);
+
+    /**
+     * Generates the output String for the file
+     * @return String
+     */
+    String generateOutputString();
+
+    /**
+     * Returns the current size of the repository
+     * @return int
+     */
+    int getSize();
 }

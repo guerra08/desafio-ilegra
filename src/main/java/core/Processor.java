@@ -9,8 +9,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
+import java.util.logging.Level;
 
 import file.Output;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import service.Service;
 
 public class Processor implements Runnable{
@@ -18,6 +21,7 @@ public class Processor implements Runnable{
     private BlockingQueue<String> inputQueue;
     private final ServiceFactory serviceFactory;
     private final Output output;
+    private static final Logger logger = LogManager.getLogger();
 
     public Processor(BlockingQueue<String> queue, ServiceFactory serviceFactory, Output output){
         this.inputQueue         = queue;
@@ -36,7 +40,7 @@ public class Processor implements Runnable{
             try {
                 if(!inputQueue.isEmpty())
                     processFile(inputQueue.take());
-                wait(50);
+                wait(5);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
@@ -48,7 +52,7 @@ public class Processor implements Runnable{
      * @param fileName The file being processed
      */
     public void processFile(String fileName){
-        System.out.println("Processing file: " + fileName);
+        logger.info("Processing file " + fileName);
         try(
             BufferedReader br = new BufferedReader(new FileReader(Dir.INPUT_DIR + fileName))
         ){
@@ -59,13 +63,13 @@ public class Processor implements Runnable{
             }
             output.generateOutputFile(fileName);
         }catch (FileNotFoundException e) {
-            System.out.println("File not found.");
+            logger.error("File " + fileName + " not found.");
         }catch (IOException e){
-            System.out.println("Error reading file");
+            logger.error("Error processing file.");
         }catch (ArrayIndexOutOfBoundsException e){
-            System.out.println("Invalid data string.");
+            logger.error("Invalid data string.");
         }catch (IllegalArgumentException e){
-            System.out.println(e.getMessage());
+            logger.error("Invalid operation.");
         }
     }
 
