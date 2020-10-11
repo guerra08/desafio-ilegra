@@ -3,6 +3,7 @@ plugins {
     id 'application'
     id "org.sonarqube" version "3.0"
     id 'jacoco'
+    id "com.github.johnrengelman.shadow" version "6.1.0"
 }
 
 apply plugin: 'jacoco'
@@ -38,7 +39,7 @@ application {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'Application'
+        attributes 'Main-Class': 'Application', 'Multi-Release': true
     }
 }
 

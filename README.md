@@ -18,13 +18,19 @@ O artefato **.jar** pode ser encontrado em na pasta **lib** dentro do arquivo de
 
 ## Enunciado
 
-O enunciado do desafio pode ser visualizado clicando **[aqui](https://github.com/guerra08/desafio-ilegra/blob/dev/documents/problemDefinition.pdf)**
+O enunciado do desafio pode ser visualizado clicando **[aqui](https://github.com/guerra08/desafio-ilegra/blob/main/documents/problemDefinition.pdf)**
 
 ## Diagrama de pacotes
 
 A seguir, esta documentado o diagrama de pacotes da aplicação:
 
-![Diagrama de pacotes](https://raw.githubusercontent.com/guerra08/desafio-ilegra/dev/documents/package-diagram.png)
+![Diagrama de pacotes](https://raw.githubusercontent.com/guerra08/desafio-ilegra/main/documents/package-diagram.png)
+
+## Diagrama de threads
+
+![Diagrama de threads](https://github.com/guerra08/desafio-ilegra/blob/main/documents/threads.png)
+
+De maneira simples, enquanto a thread de Watcher analisa os novos arquivos do diretório, a thread Processor processa os novos arquivos. Quando um novo arquivo é adicionado, a thread Watcher coloca-o em uma BlockingQueue, que por sua vez, é acessada pela thread Processor. 
 
 ## Melhorias
 
