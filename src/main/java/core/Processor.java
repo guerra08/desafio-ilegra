@@ -8,7 +8,6 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.concurrent.BlockingQueue;
 
 import file.Output;
@@ -16,11 +15,11 @@ import service.Service;
 
 public class Processor implements Runnable{
 
-    private BlockingQueue<Path> inputQueue;
+    private BlockingQueue<String> inputQueue;
     private final ServiceFactory serviceFactory;
     private final Output output;
 
-    public Processor(BlockingQueue<Path> queue, ServiceFactory serviceFactory, Output output){
+    public Processor(BlockingQueue<String> queue, ServiceFactory serviceFactory, Output output){
         this.inputQueue         = queue;
         this.serviceFactory     = serviceFactory;
         this.output             = output;
@@ -46,19 +45,19 @@ public class Processor implements Runnable{
 
     /**
      * Process a given file, adding it's contents to the respective repositories using the service classes.
-     * @param filePath The file being processed
+     * @param fileName The file being processed
      */
-    public void processFile(Path filePath){
-        System.out.println("Processing file: " + filePath);
+    public void processFile(String fileName){
+        System.out.println("Processing file: " + fileName);
         try(
-            BufferedReader br = new BufferedReader(new FileReader(Dir.INPUT_DIR + filePath.toString()))
+            BufferedReader br = new BufferedReader(new FileReader(Dir.INPUT_DIR + fileName))
         ){
             String line;
             while((line = br.readLine()) != null){
                 if(!callService(line))
                     throw new IllegalArgumentException("File contains invalid data");
             }
-            output.generateOutputFile(filePath.toString());;
+            output.generateOutputFile(fileName);
         }catch (FileNotFoundException e) {
             System.out.println("File not found.");
         }catch (IOException e){
