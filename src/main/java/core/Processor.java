@@ -51,7 +51,7 @@ public class Processor implements Runnable{
      * @param fileName The file being processed
      */
     public void processFile(String fileName){
-        logger.info(String.format("Processing file %s", fileName));
+        logger.info("Processing file {}", fileName);
         try(
             BufferedReader br = new BufferedReader(new FileReader(Dir.INPUT_DIR + fileName))
         ){
@@ -62,7 +62,7 @@ public class Processor implements Runnable{
             }
             output.generateOutputFile(fileName);
         }catch (FileNotFoundException e) {
-            logger.error(String.format("File %s not found", fileName));
+            logger.error("File {} not found", fileName);
         }catch (IOException e){
             logger.error("Error processing file.");
         }catch (ArrayIndexOutOfBoundsException e){
