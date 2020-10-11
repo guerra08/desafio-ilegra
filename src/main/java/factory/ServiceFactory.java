@@ -10,11 +10,11 @@ import service.Service;
 public class ServiceFactory {
 
     @Getter
-    private CustomerService customerService;
+    private final CustomerService customerService;
     @Getter
-    private SalesmanService salesmanService;
+    private final SalesmanService salesmanService;
     @Getter
-    private SaleService saleService;
+    private final SaleService saleService;
 
     public ServiceFactory(){
         this.customerService    = new CustomerService();

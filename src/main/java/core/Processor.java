@@ -9,20 +9,21 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.concurrent.BlockingQueue;
 
 import file.Output;
 import service.Service;
 
 public class Processor implements Runnable{
 
-    private Path filePath = null;
+    private BlockingQueue<Path> inputQueue;
     private final ServiceFactory serviceFactory;
     private final Output output;
 
-    public Processor(Path filePath, ServiceFactory serviceFactory, Output output){
-        this.filePath       = filePath;
-        this.serviceFactory = serviceFactory;
-        this.output         = output;
+    public Processor(BlockingQueue<Path> queue, ServiceFactory serviceFactory, Output output){
+        this.inputQueue         = queue;
+        this.serviceFactory     = serviceFactory;
+        this.output             = output;
     }
 
     public Processor(ServiceFactory serviceFactory, Output output){
@@ -31,8 +32,16 @@ public class Processor implements Runnable{
     }
 
     @Override
-    public void run(){
-        processFile(this.filePath);
+    public synchronized void run(){
+        while(true){
+            try {
+                if(!inputQueue.isEmpty())
+                    processFile(inputQueue.take());
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -49,15 +58,14 @@ public class Processor implements Runnable{
                 if(!callService(line))
                     throw new IllegalArgumentException("File contains invalid data");
             }
-            output.generateOutputFile(filePath.toString());
+            output.generateOutputFile(filePath.toString());;
         }catch (FileNotFoundException e) {
             System.out.println("File not found.");
         }catch (IOException e){
             System.out.println("Error reading file");
         }catch (ArrayIndexOutOfBoundsException e){
             System.out.println("Invalid data string.");
-        }
-        catch (IllegalArgumentException e){
+        }catch (IllegalArgumentException e){
             System.out.println(e.getMessage());
         }
     }

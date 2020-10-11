@@ -18,7 +18,6 @@ public class SalesmanService extends Service{
     private Map.Entry<String, Double> worstSalesmanEver = null;
 
     @Getter
-    @Setter
     private int salesmenFromInputFile = 0;
 
 

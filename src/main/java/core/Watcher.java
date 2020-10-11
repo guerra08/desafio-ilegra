@@ -6,18 +6,18 @@ import file.Output;
 
 import java.io.IOException;
 import java.nio.file.*;
-import java.util.concurrent.ExecutorService;
+import java.util.concurrent.BlockingQueue;
 
 public class Watcher implements Runnable{
 
-    private final ExecutorService processor;
+    private final BlockingQueue<Path> inputQueue;
     private final ServiceFactory serviceFactory;
     private final Output output;
 
-    public Watcher(ExecutorService processor, ServiceFactory serviceFactory, Output output){
-        this.processor      = processor;
-        this.serviceFactory = serviceFactory;
-        this.output         = output;
+    public Watcher(BlockingQueue<Path> queue, ServiceFactory serviceFactory, Output output){
+        this.inputQueue         = queue;
+        this.serviceFactory     = serviceFactory;
+        this.output             = output;
     }
 
     @Override
@@ -39,8 +39,8 @@ public class Watcher implements Runnable{
                 key = watchService.take();
                 Path file = (Path) key.pollEvents().get(0).context();
                 if(file.toString().endsWith(".dat")){
-                    Runnable processorRunnable = new Processor(file, serviceFactory, output);
-                    processor.submit(processorRunnable);
+                    System.out.println("add to queue");
+                    inputQueue.add(file);
                 }
             }while (key.reset());
         }catch (IOException e){

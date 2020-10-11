@@ -12,8 +12,7 @@ public class CustomerService extends Service{
     private final CustomerRepository customerRepository = new CustomerRepository();
 
     @Getter
-    @Setter
-    private static int customersFromInputFile = 0;
+    private int customersFromInputFile = 0;
 
     public boolean addFromProcessedData(String[] data){
         if(!data[0].equals(Identifiers.CUSTOMER_ID)) return false;
