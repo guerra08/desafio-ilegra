@@ -1,37 +1,33 @@
 package service;
 
 import config.Characters;
+import config.Identifiers;
 import domain.Salesman;
 import lombok.Getter;
 import lombok.Setter;
 import repository.SalesmanRepository;
 
-import java.util.Comparator;
 import java.util.Map;
 
 public class SalesmanService extends Service{
 
-    public SalesmanService(){}
-
-    private static SalesmanRepository salesmanRepository = new SalesmanRepository();
-
-    private SaleService saleService = new SaleService();
+    private final SalesmanRepository salesmanRepository = new SalesmanRepository();
 
     @Getter
     @Setter
-    private static Map.Entry<String, Double> worstSalesmanEver = null;
+    private Map.Entry<String, Double> worstSalesmanEver = null;
 
     @Getter
-    @Setter
-    private static int salesmenFromInputFile = 0;
+    private int salesmenFromInputFile = 0;
 
 
     public boolean addFromProcessedData(String[] data){
+        if(!data[0].equals(Identifiers.SALESMAN_ID)) return false;
         salesmenFromInputFile++;
-        return salesmanRepository.save(Salesman.builder().CNPJ(data[1]).name(data[2]).salary(Double.parseDouble(data[3])).build());
+        return salesmanRepository.save(Salesman.builder().cnpj(data[1]).name(data[2]).salary(Double.parseDouble(data[3])).build());
     }
 
-    public boolean addSalesman(Salesman s){
+    public boolean add(Salesman s){
         salesmenFromInputFile++;
         return salesmanRepository.save(s);
     }
@@ -41,21 +37,14 @@ public class SalesmanService extends Service{
     }
 
     public String generateOutputString(){
-        updateWorstSalesmanEver();
-        return "AmountOfSalesman - " + salesmenFromInputFile + Characters.NEW_LINE + "WorstSalesmanEver - " + getWorstSalesmanEver().getKey() + Characters.NEW_LINE;
+        return "SalesmanFromInput - " + salesmenFromInputFile + Characters.NEW_LINE;
     }
 
+    /**
+     * Refreshes the service after processing a file.
+     */
     public void refresh(){
-        salesmanRepository = new SalesmanRepository();
-    }
-
-    private void updateWorstSalesmanEver(){
-        Map.Entry<String, Double> worstFromRepo = saleService.mapSalesToSalesman().entrySet().stream().
-                min(Comparator.comparingDouble(Map.Entry::getValue)).orElse(null);
-        if(worstSalesmanEver == null) worstSalesmanEver = worstFromRepo;
-        else if(worstFromRepo != null && worstFromRepo.getValue() < worstSalesmanEver.getValue()){
-            worstSalesmanEver = worstFromRepo;
-        }
+        salesmenFromInputFile = 0;
     }
 
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 public class CustomerRepository implements Repository<Customer> {
 
-    private List<Customer> customers = new ArrayList<>();
+    private final List<Customer> customers = new ArrayList<>();
 
     /**
      * Adds a new Customer to the repository

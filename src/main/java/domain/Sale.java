@@ -12,9 +12,9 @@ public class Sale {
     private String salesmanName;
 
     public Sale(String saleId, String soldProducts, String salesmanName){
-        this.saleId = saleId;
-        this.salesmanName = salesmanName;
-        this.salePrice = generateSalePrice(soldProducts);
+        this.saleId         = saleId;
+        this.salesmanName   = salesmanName;
+        this.salePrice      = generateSalePrice(soldProducts);
     }
 
     @Builder(builderMethodName = "builder")

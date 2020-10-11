@@ -2,7 +2,10 @@ plugins {
     id 'java'
     id 'application'
     id "org.sonarqube" version "3.0"
+    id 'jacoco'
 }
+
+apply plugin: 'jacoco'
 
 group 'io.github.guerra08'
 version '1.0-SNAPSHOT'
@@ -20,6 +23,9 @@ dependencies {
 
     testCompileOnly 'org.projectlombok:lombok:1.18.14'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.14'
+
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.13.3'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.13.3'
 }
 
 test {
@@ -41,5 +47,26 @@ sonarqube {
         property "sonar.projectKey", "guerra08_desafio-ilegra"
         property "sonar.organization", "guerra08"
         property "sonar.host.url", "https://sonarcloud.io"
+        property 'sonar.exclusions', "domain/**, config/**, file/**, runnable/**"
+    }
+}
+
+jacocoTestReport {
+
+    reports {
+        xml.enabled true
+        html.enabled true
+        csv.enabled true
+    }
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    'domain/**',
+                    'config/**',
+                    'file/**',
+                    'runnable/**'
+            ])
+        }))
     }
 }

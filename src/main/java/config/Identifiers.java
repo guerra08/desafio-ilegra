@@ -5,6 +5,8 @@ package config;
  */
 public class Identifiers {
 
+    private Identifiers(){}
+
     public static final String SALESMAN_ID = "001";
     public static final String CUSTOMER_ID = "002";
     public static final String SALE_ID     = "003";

@@ -2,6 +2,9 @@ package file;
 
 import config.Characters;
 import config.Dir;
+import factory.ServiceFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import service.CustomerService;
 import service.SaleService;
 import service.SalesmanService;
@@ -13,31 +16,34 @@ import java.time.Instant;
 
 public class Output {
 
-    private static final CustomerService customerService = new CustomerService();
-    private static final SalesmanService salesmanService = new SalesmanService();
-    private static final SaleService saleService = new SaleService();
+    private final CustomerService customerService;
+    private final SalesmanService salesmanService;
+    private final SaleService saleService;
+    private static final Logger logger = LogManager.getLogger();
 
-    public static void generateOutputFile(){
-        FileWriter fileWriter;
-        try{
-            System.out.println("Writing output file...");
-            File f = new File(Dir.OUTPUT_DIR + Characters.FILE_PATH_SEPARATOR +
-                    Instant.now().toEpochMilli() + ".done.dat");
-            f.getParentFile().mkdirs();
-            fileWriter = new FileWriter(f);
-            fileWriter.write(customerService.generateOutputString() + salesmanService.generateOutputString() + saleService.generateOutputString());
-            fileWriter.close();
-        }catch (IOException e){
-            System.out.println(e.getMessage());
-        }
-
-        customerService.refresh();
-        salesmanService.refresh();
+    public Output(ServiceFactory serviceFactory){
+        this.saleService        = serviceFactory.getSaleService();
+        this.customerService    = serviceFactory.getCustomerService();
+        this.salesmanService    = serviceFactory.getSalesmanService();
     }
 
-    public static void generateOutputFileOfExisting(){
-        System.out.println("Generating report from existing files...");
-        System.out.println(salesmanService.generateOutputString());
+    /**
+     * Generates the output file for a given input .dat file.
+     * @param processedFile The name of the processed file
+     */
+    public void generateOutputFile(String processedFile){
+
+        File f = new File(Dir.OUTPUT_DIR + Characters.FILE_PATH_SEPARATOR +
+                Instant.now().toEpochMilli() + ".done.dat");
+        f.getParentFile().mkdirs();
+        try (
+            FileWriter fileWriter = new FileWriter(f)
+        ){
+            logger.info("Writing output file...");
+            fileWriter.write("GeneratedFrom - " + processedFile + Characters.NEW_LINE + customerService.generateOutputString() + salesmanService.generateOutputString() + saleService.generateOutputString());
+        }catch (IOException e){
+            logger.error("Error creating output file.");
+        }
 
         customerService.refresh();
         salesmanService.refresh();

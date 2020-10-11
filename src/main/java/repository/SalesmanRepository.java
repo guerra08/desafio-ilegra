@@ -7,7 +7,7 @@ import java.util.List;
 
 public class SalesmanRepository implements Repository<Salesman>{
 
-    private List<Salesman> salesmen = new ArrayList<>();
+    private final List<Salesman> salesmen = new ArrayList<>();
 
     /**
      * Adds a new Salesman to the repository

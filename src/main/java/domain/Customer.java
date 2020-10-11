@@ -9,7 +9,7 @@ import lombok.Data;
 @Builder
 public class Customer {
 
-    private String CPF;
+    private String cpf;
     private String name;
     private String businessArea;
 

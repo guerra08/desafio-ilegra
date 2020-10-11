@@ -25,3 +25,10 @@ O enunciado do desafio pode ser visualizado clicando **[aqui](https://github.com
 A seguir, esta documentado o diagrama de pacotes da aplicação:
 
 ![Diagrama de pacotes](https://raw.githubusercontent.com/guerra08/desafio-ilegra/dev/documents/package-diagram.png)
+
+## Melhorias
+
+- [ ] Melhor gestão / injeção de dependencias
+- [ ] Múltiplas threads para processamento dos arquivos
+- [ ] Persistir estruturas de dados em memória não volátil
+- [ ] Validações nos dados de entrada
