@@ -1,6 +1,8 @@
 package core;
 
 import config.Dir;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.nio.file.*;
@@ -9,6 +11,7 @@ import java.util.concurrent.BlockingQueue;
 public class Watcher implements Runnable{
 
     private final BlockingQueue<String> inputQueue;
+    private static final Logger logger = LogManager.getLogger();
 
     public Watcher(BlockingQueue<String> queue){
         this.inputQueue = queue;
@@ -45,7 +48,7 @@ public class Watcher implements Runnable{
                 }
             }while (key.reset());
         }catch (IOException e){
-            e.printStackTrace();
+            logger.error("Error while watching directory.");
         }catch (InterruptedException e){
             Thread.currentThread().interrupt();
         }
@@ -64,7 +67,7 @@ public class Watcher implements Runnable{
                 }
             }
         }catch (IOException e){
-            e.printStackTrace();
+            logger.error("Error when checking existing files.");
         }
     }
 
