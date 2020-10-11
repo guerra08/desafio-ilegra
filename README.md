@@ -1,4 +1,5 @@
-# Desafio Ilegra
+# Desafio Ilegra 
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/dashboard?id=guerra08_desafio-ilegra)
 
 Desafio da Ilegra para vaga em projeto backend. Desenvolvido utilizando Java e gradle como <i>build tool</i>.
 
@@ -10,11 +11,11 @@ Desafio da Ilegra para vaga em projeto backend. Desenvolvido utilizando Java e g
 
 Você pode realizar o download da versão mais recente nas **[releases](https://github.com/guerra08/desafio-ilegra/releases)** do projeto.
 
-Para executar, basta realizar o download do **.zip**, extrair para um diretório de sua escolha e executar o seguinte comando em um terminal ou prompt de comando:
+Para executar, basta realizar o download do arquvo **.jar** ou **.zip**, extrair para um diretório de sua escolha e executar o seguinte comando em um terminal ou prompt de comando:
 
 ``java -jar desafio-ilegra-1.0-SNAPSHOT.jar``
 
-O artefato **.jar** pode ser encontrado em na pasta **lib** dentro do arquivo de release.
+Você também pode executar o projeto utilizando o gradle / gradlew presente neste repositório.
 
 ## Enunciado
 
